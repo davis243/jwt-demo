@@ -18,8 +18,8 @@ public class HeroController {
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/heroes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Hero> userInfo() throws Exception {
-        return (List<Hero>) heroService.getHeroes();
+    public List<Hero> userInfo(@RequestParam(required = false) String name) throws Exception {
+        return (List<Hero>) heroService.getHeroes(name);
     }
     @RequestMapping(value = "/heroes/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Hero userInfo(@PathVariable("id") Long id) throws Exception {
@@ -27,22 +27,39 @@ public class HeroController {
     }
 
     @RequestMapping(value = "/heroes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Integer createUser(@RequestBody Hero hero) throws Exception {
+    public Integer createHero(@RequestBody Hero hero) throws Exception {
         return (Integer) heroService.createHeroe(hero);
     }
 
-    @RequestMapping(value = "/heroes", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Integer updateUser(@RequestBody Hero hero) throws Exception {
+    @RequestMapping(value = "/heroes/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer updateHero(@PathVariable Long id,@RequestBody Hero hero) throws Exception {
         return (Integer) heroService.updateHeroe(hero);
     }
 
     @RequestMapping(value = "/heroes/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Integer deleteUser(@PathVariable Long id) throws Exception {
+    public Integer deleteHero(@PathVariable Long id) throws Exception {
         return (Integer) heroService.deleteHeroe(id);
     }
 
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value = "/api/secret/heroes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Hero> getSecretHeroes() throws Exception {
+        return (List<Hero>) heroService.getSecretHeroes();
+    }
 
-    /*private ResponseObject getResponseObject(Integer output){
-        return new ResponseObject(output == 1 ? true : false, output == 1 ? "successful" : "failed");
-    }*/
+    @RequestMapping(value = "/api/secret/heroes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer createSecretHero(@RequestBody Hero hero) throws Exception {
+        return (Integer) heroService.createHeroe(hero);
+    }
+
+    @RequestMapping(value = "/api/secret/heroes/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer updateSecretHero(@PathVariable Long id,@RequestBody Hero hero) throws Exception {
+        return (Integer) heroService.updateHeroe(hero);
+    }
+
+    @RequestMapping(value = "/api/secret/heroes/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer deleteSecretHero(@PathVariable Long id) throws Exception {
+        return (Integer) heroService.deleteHeroe(id);
+    }
+
 }

@@ -18,8 +18,8 @@ public class HeroServiceImpl implements HeroService{
     HeroDao heroDao;
 
     @Override
-    public List<Hero> getHeroes() {
-        return heroDao.getHeroes();
+    public List<Hero> getHeroes(String name) {
+        return heroDao.getHeroes(name);
     }
 
     @Override
@@ -40,5 +40,10 @@ public class HeroServiceImpl implements HeroService{
     @Override
     public Integer deleteHeroe(Long id) {
         return heroDao.deleteHeroe(id);
+    }
+
+    @Override
+    public List<Hero> getSecretHeroes() {
+        return heroDao.getSecretHeroes();
     }
 }

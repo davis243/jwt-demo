@@ -21,9 +21,16 @@ public class HeroDaoImpl implements HeroDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Hero> getHeroes() {
+    public List<Hero> getHeroes(String name) {
+        String query =  "SELECT id,name,secreto FROM hero where secreto=FALSE ";
+        Object[]  parameters = new Object[] {} ;
+        if(name!=null && !name.equals(""))
+        {
+            query +=  "and UPPER(name) regexp '.*'|| UPPER(?) ||'.*'";
+            parameters =  new Object[]{ name };
+        }
         return jdbcTemplate.query(
-                "SELECT id,name,secreto FROM hero",
+               query,parameters,
                 (rs, rowNum) -> new Hero(rs.getLong("id"),rs.getString("name"),rs.getBoolean("secreto")));
 
     }
@@ -51,7 +58,7 @@ public class HeroDaoImpl implements HeroDao {
 
     @Override
     public Integer updateHeroe(Hero hero) {
-        return jdbcTemplate.update("UPDATE users set name=?,secreto=? where id=?",
+        return jdbcTemplate.update("UPDATE hero set name=?,secreto=? where id=?",
                 new PreparedStatementSetter() {
                     public void setValues(PreparedStatement stmt)
                             throws SQLException {
@@ -71,5 +78,12 @@ public class HeroDaoImpl implements HeroDao {
                         stmt.setLong(1,id);
                     }
                 });
+    }
+
+    @Override
+    public List<Hero> getSecretHeroes() {
+        return jdbcTemplate.query(
+                "SELECT id,name,secreto FROM hero where secreto=TRUE",
+                (rs, rowNum) -> new Hero(rs.getLong("id"),rs.getString("name"),rs.getBoolean("secreto")));
     }
 }
