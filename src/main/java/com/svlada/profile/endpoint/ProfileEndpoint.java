@@ -19,6 +19,7 @@ import com.svlada.security.model.UserContext;
 public class ProfileEndpoint {
     @RequestMapping(value="/api/me", method=RequestMethod.GET)
     public @ResponseBody UserContext get(JwtAuthenticationToken token) {
+
         return (UserContext) token.getPrincipal();
     }
 }

@@ -54,7 +54,7 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
             if(logger.isDebugEnabled()) {
                 logger.debug("Authentication method not supported. Request method: " + request.getMethod());
             }
-            throw new AuthMethodNotSupportedException("Authentication method not supported");
+            throw new AuthMethodNotSupportedException("Authentication method not supported+");
         }
 
         LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
